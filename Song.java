@@ -27,15 +27,11 @@ public final class Song {
      * @throws IllegalArgumentException เมื่อว่างหรือเป็น null 
      */
     public Song(String title, String artist, List<String> tags) {
-        // TODO(1.1): validate input — title/artist ห้าม null/ว่าง,
-        //            tags ห้าม null และห้ามมีสมาชิกเป็น null/ว่าง
-        //            ผิดเงื่อนไขให้ throw IllegalArgumentException
         if(title==null||title==""||artist==null||artist==""){throw new IllegalArgumentException("Title or Artist is null/empty");}
         if(tags == null||tags.contains(null)||tags.contains("")){throw new IllegalArgumentException("Tags has problem");}
 
         this.title = title;
         this.artist = artist;
-        // TODO(1.2): ✗ เก็บลูกศรตรง ๆ = rep exposure ขาเข้า → defensive copy!
         this.tags = new ArrayList<>(tags);
         checkRep();
     }
@@ -58,19 +54,15 @@ public final class Song {
     }
 
     public List<String> tags() {
-        // TODO(1.3): ✗ ส่งลูกศรออกไปตรง ๆ = rep exposure ขาออก → คืน "สำเนา"
         return new ArrayList<>(tags);
     }
 
     // ---------- producer ----------
-
     /**
      * spec: คืน Song "ตัวใหม่" ที่มีแท็กเพิ่มต่อท้าย — ห้ามแก้ตัวเดิม
      * @throws IllegalArgumentException เมื่อ tag เป็น null/ว่าง
      */
     public Song withTag(String tag) {
-        // TODO(1.4): ✗ โค้ดนี้ mutate ตัวเอง! ต้องสร้างและคืน Song ตัวใหม่แทน
-        //            (อย่าลืม validate tag ด้วย)
         if(tag == null||tag =="")throw new IllegalArgumentException();
         List<String> next = new ArrayList<>(tags);
         next.add(tag);
@@ -78,11 +70,6 @@ public final class Song {
     }
 
     // ---------- equality ----------
-
-    // TODO(1.5): override equals(Object o) แบบ structural equality
-    //            เทียบ title, artist และ tags ทีละ field
-    //            ตามลำดับมาตรฐาน: ตัวเอง → ชนิด (instanceof) → cast → เทียบ field
-    //            ระวัง: ต้องรับ Object ไม่ใช่ Song ไม่งั้นเป็น overload ไม่ใช่ override!
     @Override
     public boolean equals(Object o){
         if(this==o)return true;
@@ -90,8 +77,6 @@ public final class Song {
         Song s = (Song) o;
         return title.equals(s.title) && artist.equals(s.artist) && tags.equals(s.tags);
     }
-    // TODO(1.6): override hashCode() ให้สอดคล้องกับ equals
-    //            (คำนวณจาก field ชุดเดียวกัน — Objects.hash(...) ช่วยได้)
     @Override
     public int hashCode(){
         return Objects.hash(title,artist,tags);
